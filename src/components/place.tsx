@@ -15,6 +15,8 @@ export type TPlace = {
   cupons: number;
   cover: string;
   address: string;
+  latitude: number;
+  longitude: number;
 };
 
 interface IPlaceProps extends TouchableOpacityProps {
@@ -57,6 +59,7 @@ export function Place({ data, ...props }: IPlaceProps) {
           {data.name}
         </Text>
         <Text
+          numberOfLines={3}
           style={{
             fontSize: 14,
             fontFamily: fontFamily.regular,
@@ -65,7 +68,7 @@ export function Place({ data, ...props }: IPlaceProps) {
         >
           {data.description}
         </Text>
-        <View style={{ flexDirection: "row", gap: 7, marginTop: 10 }}>
+        <View style={{ flexDirection: "row", gap: 7 }}>
           <IconTicket size={16} color={colors.red.base} />
           <Text
             style={{

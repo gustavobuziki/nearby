@@ -1,23 +1,9 @@
 import { useRef } from "react";
 import { colors, fontFamily } from "@/styles/theme";
-import { Text, useWindowDimensions, View } from "react-native";
+import { Text, useWindowDimensions } from "react-native";
 import { Place, TPlace } from "./place";
 import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet";
-
-// backgroundColor: colors.gray[100]
-
-// gap: 12,
-// padding: 24,
-// paddingBottom: 100,
-
-// width: 80,
-// height: 4,
-// backgroundColor: colors.gray[300];
-
-// color: colors.gray[600]
-// fontSize: 16,
-// fontFamily: fontFamily.regular,
-// marginBottom: 16
+import { router } from "expo-router";
 
 interface IPlacesProps {
   data: TPlace[];
@@ -28,20 +14,24 @@ export function Places({ data }: IPlacesProps) {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = {
     min: 278,
-    max: dimensions.height - 128,
+    max: dimensions.height - 120,
   };
 
   return (
     <BottomSheet
       ref={bottomSheetRef}
       snapPoints={[snapPoints.min, snapPoints.max]}
-      handleIndicatorStyle={{ backgroundColor: colors.gray[100] }}
+      handleIndicatorStyle={{
+        width: 80,
+        height: 4,
+        backgroundColor: colors.gray[300],
+      }}
       backgroundStyle={{ backgroundColor: colors.gray[100] }}
       enableOverDrag={false}
     >
       <BottomSheetFlatList
         data={data}
-        contentContainerStyle={{ gap: 12, padding: 24, paddingBottom: 100 }}
+        contentContainerStyle={{ gap: 12, padding: 24 }}
         ListHeaderComponent={() => (
           <Text
             style={{
@@ -55,7 +45,12 @@ export function Places({ data }: IPlacesProps) {
           </Text>
         )}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <Place data={item} />}
+        renderItem={({ item }) => (
+          <Place
+            data={item}
+            onPress={() => router.navigate(`/market/${item.id}`)}
+          />
+        )}
       />
     </BottomSheet>
   );
